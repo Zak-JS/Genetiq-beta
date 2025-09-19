@@ -1,6 +1,7 @@
 import styles from "./AgeMetrics.module.scss";
 import Shape from "@assets/AgeWidget/Shape.svg?react";
 import Arrows from "@assets/AgeWidget/ConvergeArrowsIcon.svg?react";
+import { useTranslation } from "react-i18next";
 
 interface AgeMetricsProps {
 	ageData: {
@@ -10,13 +11,15 @@ interface AgeMetricsProps {
 }
 
 export const AgeMetrics: React.FC<AgeMetricsProps> = ({ ageData }) => {
+	const { t } = useTranslation();
+
 	return (
 		<div className={styles["AgeMetrics-age"]}>
 			<div className={styles["AgeMetrics-shape-container"]}>
 				<Shape className={styles["AgeMetrics-shape"]} />
 				<div className={styles["AgeMetrics-content"]}>
 					<div className={styles["AgeMetrics-content-title"]}>
-						Biological age
+						{t("widgets.age.biologicalAge")}
 					</div>
 					<div
 						className={`${styles["AgeMetrics-content-value"]} ${styles["AgeMetrics-border-green"]}`}
@@ -33,7 +36,7 @@ export const AgeMetrics: React.FC<AgeMetricsProps> = ({ ageData }) => {
 				<Shape className={styles["AgeMetrics-shape-rotated"]} />
 				<div className={styles["AgeMetrics-content-rotated"]}>
 					<div className={styles["AgeMetrics-content-title"]}>
-						Chronological age
+						{t("widgets.age.chronologicalAge")}
 					</div>
 					<div
 						className={`${styles["AgeMetrics-content-value"]} ${styles["AgeMetrics-border-blue"]}`}

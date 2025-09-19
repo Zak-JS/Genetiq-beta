@@ -1,0 +1,58 @@
+:root {
+	// Default theme variables (Light theme as default)
+	--theme-primary: #ffffff;
+	--theme-secondary: #f8f9fa;
+	--theme-text-primary: rgba(0, 0, 0, 0.87);
+	--theme-text-secondary: rgba(0, 0, 0, 0.6);
+	--theme-border: #e0e0e0;
+	--theme-shadow: rgba(0, 0, 0, 0.1);
+
+	// consistent colours across themes
+	--theme-accent: #3478f6;
+	--theme-success: #4caf50;
+	--theme-warning: #ff9800;
+	--theme-error: #f44336;
+
+	color: var(--theme-text-primary);
+	background-color: var(--theme-primary);
+}
+
+// Light Theme
+[data-theme="light"] {
+	--theme-primary: #ffffff;
+	--theme-secondary: #f8f9fa;
+	--theme-text-primary: rgba(0, 0, 0, 0.87);
+	--theme-text-secondary: rgba(0, 0, 0, 0.6);
+	--theme-border: #e0e0e0;
+	--theme-shadow: rgba(0, 0, 0, 0.1);
+}
+
+// Dark Theme
+[data-theme="dark"] {
+	--theme-primary: #1a1a1a;
+	--theme-secondary: #2d2d2d;
+	--theme-text-primary: rgba(255, 255, 255, 0.87);
+	--theme-text-secondary: rgba(255, 255, 255, 0.6);
+	--theme-border: #404040;
+	--theme-shadow: rgba(0, 0, 0, 0.3);
+}
+
+// Blue Theme (Ocean Blue)
+[data-theme="blue"] {
+	--theme-primary: #0d47a1;
+	--theme-secondary: #1976d2;
+	--theme-text-primary: rgba(255, 255, 255, 0.95);
+	--theme-text-secondary: rgba(255, 255, 255, 0.7);
+	--theme-border: #1565c0;
+	--theme-shadow: rgba(13, 71, 161, 0.3);
+}
+
+// Green Theme
+[data-theme="green"] {
+	--theme-primary: #1b5e20;
+	--theme-secondary: #388e3c;
+	--theme-text-primary: rgba(255, 255, 255, 0.95);
+	--theme-text-secondary: rgba(255, 255, 255, 0.7);
+	--theme-border: #2e7d32;
+	--theme-shadow: rgba(27, 94, 32, 0.3);
+}

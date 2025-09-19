@@ -1,58 +1,72 @@
-# React + TypeScript + Vite
+# Theming & Internationalization Implementation
 
-This template provides a minimal setup to get React working in Vite with HMR and
-some ESLint rules.
+## Architecture Decisions
 
-Currently, two official plugins are available:
+### 1. Theming — React Context (not Redux)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md)
-  uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc)
-  uses [SWC](https://swc.rs/) for Fast Refresh
+For theme management I chose **React Context** over **Redux Toolkit**. Your
+Redux store currently handles minimal state (primarily category selection), and
+extending it for theming would introduce unnecessary boilerplate for what is
+essentially a simple UI preference. Multiple contexts are already present in the
+codebase (`CameraContext`, `ModelTransitionContext`), indicating Context is your
+preferred pattern for UI state.
 
-## Expanding the ESLint configuration
+**Recommendation:** Given the limited complexity of your state, I'd suggest
+gradually migrating away from Redux unless there's a compelling cross-cutting
+need to keep it. A modern stack typically benefits more from specialized tools:
+**React Query** for server state and **Context** for client-side UI state,
+rather than Redux's one-size-fits-all model.
 
-If you are developing a production application, we recommend updating the
-configuration to enable type aware lint rules:
+### 2. Styling — CSS Custom Properties (CSS variables)
 
-- Configure the top-level `parserOptions` property like this:
+Since no UI framework or opinionated styling system is in use, **CSS Custom
+Properties** were the most appropriate choice. They provide maximum flexibility
+without framework dependencies, align with web standards, and avoid the runtime
+overhead of JavaScript-driven style updates. This approach also future-proofs
+theming: it allows for native `prefers-color-scheme` integration, multiple theme
+variants via `[data-theme]`, and easy extension into a design token pipeline or
+style dictionary workflow.
 
-```js
-export default tseslint.config({
-	languageOptions: {
-		// other options...
-		parserOptions: {
-			project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-			tsconfigRootDir: import.meta.dirname,
-		},
-	},
-});
-```
+### 3. Internationalization — react-i18next
 
-- Replace `tseslint.configs.recommended` to
-  `tseslint.configs.recommendedTypeChecked` or
-  `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install
-  [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and
-  update the config:
+While I prefer to avoid introducing new dependencies, internationalization is a
+clear requirement and **react-i18next** is the established standard. I
+implemented a complete i18n setup with English and French, including browser
+language detection, localStorage persistence, and integration with the theme
+selector. For proof of concept, I translated navigation, dashboard widgets, and
+selector interfaces.
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
+### 4. Organization — File Structure
 
-export default tseslint.config({
-	// Set the react version
-	settings: { react: { version: "18.3" } },
-	plugins: {
-		// Add the react plugin
-		react,
-	},
-	rules: {
-		// other rules...
-		// Enable its recommended rules
-		...react.configs.recommended.rules,
-		...react.configs["jsx-runtime"].rules,
-	},
-});
-```
+I introduced a dedicated `theme.scss` separate from `Global.scss` to isolate
+theme variables from base styles. This separation improves maintainability and
+creates a scalable foundation for future theme additions.
+
+### 5. Tooling — ESLint & Module Type Alignment
+
+The ESLint configuration had been upgraded to the modern flat config with ES
+module imports, but `package.json` still declared `"type": "commonjs"`. This
+mismatch caused Node.js to expect `require()` while encountering `import`. I
+updated `"type": "module"` to resolve the inconsistency.
+
+**Benefits:**
+
+- **Tooling alignment:** The project already uses ES module-based tooling (Vite,
+  TypeScript, React)
+- **Future-proofing:** ES modules are the JavaScript standard and the direction
+  of the ecosystem
+- **Consistency:** Allows ESLint flat config to work without file-extension
+  workarounds or syntax conversions
+- **Minimal impact:** The codebase is TypeScript-first (`.ts`/`.tsx`), so this
+  change has negligible effect on existing code
+
+## Results
+
+- Production-ready theming system with 4 themes (Light, Dark, Ocean Blue, Forest
+  Green)
+- Complete bilingual implementation (English/French) with persistent preferences
+- Framework-agnostic implementation maintaining maximum architectural
+  flexibility
+- CSS data attributes approach for theme color previews without JavaScript color
+  duplication
+- Resolved linting pipeline compatibility issues
