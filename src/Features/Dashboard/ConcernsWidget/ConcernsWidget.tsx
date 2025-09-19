@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./ConcernsWidget.module.scss";
 import Chevron from "@assets/ConcernWidget/Chevron.svg?react";
 import Slope from "@assets/ConcernsWidget/Slope.svg?react";
+import { useTranslation } from "react-i18next";
 import { concernsMockData } from "./helpers/concernsMockData";
 import { detailedSystemConcerns } from "./helpers/detailedSystemConcerns";
 import { ConcernsCard } from "./Components/ConcernsCard/ConcernsCard";
@@ -15,6 +16,7 @@ interface ConcernsWidgetProps {
 }
 
 export const ConcernsWidget: React.FC<ConcernsWidgetProps> = ({ category }) => {
+	const { t } = useTranslation();
 	const [isShowMore, setIsShowMore] = useState(false);
 	const [detailIndex, setDetailIndex] = useState(1);
 
@@ -50,7 +52,9 @@ export const ConcernsWidget: React.FC<ConcernsWidgetProps> = ({ category }) => {
 					onClick={() => handleShowMore()}
 				>
 					<p className={styles["ConcernWidget-more-text"]}>
-						{isShowMore ? "Show Less" : "Show all"}
+						{isShowMore
+							? t("widgets.concerns.showLess")
+							: t("widgets.concerns.showMore")}
 					</p>
 					<div className={styles["ConcernWidget-chevron-container"]}>
 						<Chevron

@@ -4,6 +4,8 @@ import styles from "./Navbar.module.scss";
 import NotificationHub from "./Components/NotificationsHub/NotificationsHub";
 import Profile from "./Components/Profile/Profile";
 import ManageData from "./Components/ManageData/ManageData";
+import ThemeSelector from "../ThemeSelector/ThemeSelector";
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
 
 const Navbar = () => {
 	return (
@@ -13,6 +15,8 @@ const Navbar = () => {
 			</div>
 			<Navigation />
 			<div className={styles["actions-container"]}>
+				<ThemeSelector />
+				<LanguageSelector />
 				<ManageData />
 				<NotificationHub IsBadge={true} />
 				<Profile />
